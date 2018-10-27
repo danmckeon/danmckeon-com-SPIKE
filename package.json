@@ -4,6 +4,7 @@
   "description": "some of my work",
   "main": "index.js",
   "scripts": {
+    "build-react": "cd client && react-scripts-ts build",
     "start": "sls offline start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +23,7 @@
     "react-dom": "^16.6.0",
     "react-jss": "^8.6.1",
     "react-scripts": "^2.0.5",
+    "react-scripts-ts": "^3.1.0",
     "serverless-http": "^1.7.2",
     "url-loader": "^1.1.2"
   },
