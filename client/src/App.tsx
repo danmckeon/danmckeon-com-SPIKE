@@ -1,6 +1,14 @@
 import * as React from 'react';
+import injectSheet from 'react-jss';
 import logo from './logo.svg';
 
+const styles = {
+  container: {
+    marginBottom: 60
+  }
+};
+
+@injectSheet(styles)
 class App extends React.Component {
   public render() {
     return (
