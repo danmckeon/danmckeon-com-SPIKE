@@ -1,2 +1,5 @@
-.webpack/*
-node_modules/*
+# Build
+.webpack
+
+# Dependency directory
+node_modules
