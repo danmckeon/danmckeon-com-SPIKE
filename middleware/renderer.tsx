@@ -1,8 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-// import main App component
+import * as fs from 'fs';
+import * as path from 'path';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import App from '../client/src/App';
 
 export default (req, res, next) => {
