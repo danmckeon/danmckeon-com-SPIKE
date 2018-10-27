@@ -1,6 +1,6 @@
 // index.js
-import express from 'express';
-import serverless from 'serverless-http';
+const express = require('express');
+const serverless = require('serverless-http');
 const app = express();
 app.get('/', function(req, res) {
   res.send('Hello World!');
