@@ -1,9 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+const fs = require('fs');
+const path = require('path');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
 // import main App component
 import App from '../client/src/App';
+
 export default (req, res, next) => {
   // point build index.html
   const filePath = path.resolve('client', './build', 'index.html');
