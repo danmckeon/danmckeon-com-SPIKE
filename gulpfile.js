@@ -78,15 +78,15 @@ const clean = () => fs.remove('dist');
 
 gulp.task('clean', () => fs.remove('dist'));
 
-// const test = async () => {
-//   if (process.env.SKIP_TESTS) {
-//     console.warn('SKIP TEST FLAG SET, NOT TESTING!!  BOO');
-//     return;
-//   }
+const test = async () => {
+  if (process.env.SKIP_TESTS) {
+    console.warn('SKIP TEST FLAG SET, NOT TESTING!!  BOO');
+    return;
+  }
 
-//   await exec('npm', ['run', 'test-single']);
-// };
-// exports.test = test;
+  await exec('npm', ['run', 'test-single']);
+};
+exports.test = test;
 
 const copy = () => gulp.src(staticFiles, { base: '.' }).pipe(gulp.dest('dist'));
 exports.copy = copy;
@@ -105,12 +105,12 @@ exports.watch = watch;
 
 const start = () => {
   process.env.NODE_ENV = 'development';
-  return exec('electron', ['dist/src']);
+  return exec('node', ['dist/src/app/index.js']);
 };
 exports.start = start;
 
-// this should be my push to serverless script
-// const publish = gulp.series(dieIfUncommitted, clean, build, test, bumpVersion, openWhatsNew);
-// exports.publish = publish;
+// TODO: build out serverless publishing logic
+const publish = gulp.series(clean, build, test);
+exports.publish = publish;
 
 gulp.task('default', start);
