@@ -1,5 +1,5 @@
 # Build
-.webpack
+dist/
 
 # Dependency directory
 node_modules
