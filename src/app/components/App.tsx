@@ -39,15 +39,15 @@ type Props = {
 
 @injectSheet(styles)
 export default class App extends React.Component<Props, {}> {
-  public render() {
-    // const { classes } = this.props;
+  render() {
+    const { classes } = this.props;
+
     return (
-      <div className="app">
+      <div className={classes.app}>
         <header className="appHeader">
-          <img className="App-logo" alt="logo" />
-          <h1>Hello React World4</h1>
+          <h1 className={classes.appTitle}>Hello React World4</h1>
         </header>
-        <p>Here's some content</p>
+        <p className={classes.appIntro}>Here's some content</p>
       </div>
     );
   }

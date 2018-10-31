@@ -17,6 +17,7 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
     "typeRoots": ["./node_modules/@types", "./typings"]
