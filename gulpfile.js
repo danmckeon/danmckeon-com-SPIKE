@@ -1,0 +1,116 @@
+const bluebird = require('bluebird');
+global.Promise = bluebird;
+
+const gulp = require('gulp');
+const fs = require('fs-extra');
+const spawn = require('child_process').spawn;
+
+const tsFiles = ['src/**/*.ts', 'src/**/*.tsx'];
+const staticFiles = [
+  'package.json',
+  'src/**/*.html',
+  'src/**/*.css',
+  'src/**/*.json',
+  'src/**/*.svg',
+  'src/**/*.png',
+  'src/**/*.jpg'
+];
+
+class Fail extends Error {
+  constructor(msg) {
+    super(msg);
+
+    this.showStack = false;
+  }
+}
+
+const assert = (cond, msg = 'Assert failed!') => {
+  if (!cond) throw new Fail(msg);
+};
+
+const exec = (cmd, args = []) => {
+  const p = spawn('npx', [cmd, ...args], {
+    shell: true,
+    stdio: 'inherit'
+  });
+
+  return new Promise((resolve, reject) => {
+    p.on('close', function(code) {
+      code !== 0 ? reject(new Fail(`${cmd} exited with code ` + code)) : resolve();
+    });
+
+    process.on('exit', () => {
+      // p.stdin.pause();
+      p.kill();
+    });
+  });
+};
+
+// workaround for https://github.com/ivogabe/gulp-typescript/issues/549
+const tsc = () => exec('tsc');
+
+const tscWatch = () =>
+  new Promise((resolve, reject) => {
+    const cmd = 'npx';
+    const args = ['tsc', '-w', '--preserveWatchOutput'];
+
+    const tsc = spawn(cmd, args);
+    const sanitizeTSCOutput = data => data.toString().trim();
+
+    tsc.stdout.on('data', data => {
+      const message = sanitizeTSCOutput(data);
+      console.log(message);
+
+      // Hack to let gulp know we have the watcher online
+      if (message.includes('Watching for file changes')) {
+        resolve();
+      }
+    });
+
+    tsc.stderr.on('data', data => {
+      console.log(sanitizeTSCOutput(data));
+    });
+
+    tsc.on('error', console.log);
+  });
+
+const clean = () => fs.remove('dist');
+
+gulp.task('clean', () => fs.remove('dist'));
+
+// const test = async () => {
+//   if (process.env.SKIP_TESTS) {
+//     console.warn('SKIP TEST FLAG SET, NOT TESTING!!  BOO');
+//     return;
+//   }
+
+//   await exec('npm', ['run', 'test-single']);
+// };
+// exports.test = test;
+
+const copy = () => gulp.src(staticFiles, { base: '.' }).pipe(gulp.dest('dist'));
+exports.copy = copy;
+
+const build = gulp.parallel(tsc, copy);
+exports.build = build;
+
+const watch = async () => {
+  // wait for the initial build
+  await tscWatch();
+
+  // watch for everything else
+  gulp.watch(staticFiles, copy);
+};
+exports.watch = watch;
+
+const start = () => {
+  process.env.NODE_ENV = 'development';
+  return exec('electron', ['dist/src']);
+};
+exports.start = start;
+
+// this should be my push to serverless script
+// const publish = gulp.series(dieIfUncommitted, clean, build, test, bumpVersion, openWhatsNew);
+// exports.publish = publish;
+
+gulp.task('default', start);

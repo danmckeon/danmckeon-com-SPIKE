@@ -1,6 +1,5 @@
 import * as React from 'react';
 import injectSheet from 'react-jss';
-import logo from './logo.svg';
 
 // .App-logo {
 //   animation: App-logo-spin infinite 20s linear;
@@ -34,21 +33,21 @@ const styles = {
   }
 };
 
-interface IProps {
+type Props = {
   classes?: any;
-}
+};
 
 @injectSheet(styles)
-export default class App extends React.Component<IProps, {}> {
+export default class App extends React.Component<Props, {}> {
   public render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     return (
       <div className="app">
         <header className="appHeader">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className={classes.appTitle}>Hello React World3</h1>
+          <img className="App-logo" alt="logo" />
+          <h1>Hello React World4</h1>
         </header>
-        <p className={classes.appIntro}>Here's some content</p>
+        <p>Here's some content</p>
       </div>
     );
   }
