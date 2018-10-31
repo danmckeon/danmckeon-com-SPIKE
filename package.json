@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "my-work",
   "version": "1.0.0",
-  "description": "some of my work",
+  "description": "some handy apps",
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
@@ -9,38 +9,22 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Dan McKeon",
+  "license": "MIT",
   "dependencies": {
     "@types/express": "^4.16.0",
     "@types/react": "^16.4.18",
-    "babel-plugin-css-modules-transform": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react-app": "^5.0.4",
-    "babel-preset-stage-2": "^6.24.1",
     "bluebird": "^3.5.2",
-    "copy-webpack-plugin": "^4.5.4",
     "express": "^4.16.4",
     "fs-extra": "^7.0.0",
     "gulp": "^4.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-jss": "^8.1.0",
-    "react-scripts": "^2.0.5",
-    "react-scripts-ts": "^3.1.0",
-    "serverless-http": "^1.7.2",
-    "url-loader": "^1.1.2"
+    "serverless-http": "^1.7.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-source-map-support": "^2.0.1",
-    "babel-preset-env": "^1.7.0",
     "serverless-offline": "^3.30.0",
-    "serverless-webpack": "^5.2.0",
-    "ts-loader": "^5.2.2",
-    "typescript": "^3.1.3",
-    "webpack": "^4.23.1",
-    "webpack-node-externals": "^1.7.2"
+    "typescript": "^3.1.3"
   }
 }

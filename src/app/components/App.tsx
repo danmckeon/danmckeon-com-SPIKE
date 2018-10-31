@@ -37,8 +37,24 @@ type Props = {
   classes?: any;
 };
 
+type State = {
+  toggle: boolean;
+};
+
 @injectSheet(styles)
-export default class App extends React.Component<Props, {}> {
+export default class App extends React.Component<Props, State> {
+  state = {
+    toggle: false
+  };
+
+  handleClick = e => {
+    console.log('handleClick');
+    console.log('this.state.toggle', this.state.toggle);
+    this.setState({ toggle: true }, () => {
+      console.log('this.state.toggle after setState', this.state.toggle);
+    });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -47,6 +63,7 @@ export default class App extends React.Component<Props, {}> {
         <header className="appHeader">
           <h1 className={classes.appTitle}>Hello React World4</h1>
         </header>
+        <button onClick={this.handleClick}>Test</button>
         <p className={classes.appIntro}>Here's some content</p>
       </div>
     );
