@@ -43,9 +43,13 @@ type State = {
 
 @injectSheet(styles)
 export default class App extends React.Component<Props, State> {
-  state = {
-    toggle: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      toggle: false
+    };
+  }
 
   handleClick = e => {
     console.log('handleClick');
@@ -57,6 +61,8 @@ export default class App extends React.Component<Props, State> {
 
   render() {
     const { classes } = this.props;
+    console.log('here is a console log');
+    console.log('heres antoher');
 
     return (
       <div className={classes.app}>
@@ -65,6 +71,7 @@ export default class App extends React.Component<Props, State> {
         </header>
         <button onClick={this.handleClick}>Test</button>
         <p className={classes.appIntro}>Here's some content</p>
+        {this.state.toggle && <p>This text should only show after button clikc</p>}
       </div>
     );
   }
