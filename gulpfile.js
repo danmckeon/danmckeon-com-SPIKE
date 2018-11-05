@@ -4,6 +4,7 @@ global.Promise = bluebird;
 const gulp = require('gulp');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
+const browserify = require('browserify');
 
 const tsFiles = ['src/**/*.ts', 'src/**/*.tsx'];
 const staticFiles = [
@@ -91,7 +92,19 @@ exports.test = test;
 const copy = () => gulp.src(staticFiles, { base: '.' }).pipe(gulp.dest('dist'));
 exports.copy = copy;
 
-const build = gulp.parallel(tsc, copy);
+const bundle = () =>
+  browserify({
+    entries: ['dist/src/app/components/index.js'],
+    debug: true,
+    cache: {},
+    packageCache: {},
+    fullPaths: true
+  }).bundle((err, buf) => fs.writeFile('dist/src/app/static/bundle.js', buf));
+// .on('bundle', bundle => console.log('think we just bundled?'));
+
+exports.bundle = bundle;
+
+const build = gulp.series(tsc, copy, bundle);
 exports.build = build;
 
 const watch = async () => {

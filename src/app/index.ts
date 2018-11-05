@@ -9,7 +9,8 @@ const app = express();
 // root (/) should always serve our server rendered page
 app.use('^/$', renderer);
 // serve static assets
-app.use(express.static(path.join(__dirname, 'client', './build')));
+app.use(express.static(path.resolve('dist', './src', 'app', 'static')));
+
 // handler
 // export const handler = serverless(app);
 

@@ -5,11 +5,17 @@ import { renderToString } from 'react-dom/server';
 import { JssProvider, SheetsRegistry } from 'react-jss';
 import App from '../components/App';
 
+function insertString(inputStr: string, insertAt: string, insertStr: string): string {
+  const insertIdx = inputStr.indexOf(insertAt);
+  return [inputStr.slice(0, insertIdx), insertStr, inputStr.slice(insertIdx)].join('');
+}
+
 export default (req, res, next) => {
-  // point build index.html
-  const filePath = path.resolve('dist', './src', 'app', 'static', 'index.html');
-  // read in html file
-  fs.readFile(filePath, 'utf8', (err, htmlData) => {
+  const staticPath = path.resolve('dist', './src', 'app', 'static');
+
+  const filePath = path.join(staticPath, 'index.html');
+
+  fs.readFile(filePath, 'utf8', (err, html) => {
     if (err) {
       return res.send(err).end();
     }
@@ -24,14 +30,12 @@ export default (req, res, next) => {
 
     const style = renderToString(<style type="text/css">{sheets.toString()}</style>);
 
-    const styleInsertIndex = htmlData.indexOf('</head>');
+    html = insertString(html, '</head>', style);
 
-    const htmlWithStyle = [
-      htmlData.slice(0, styleInsertIndex),
-      style,
-      htmlData.slice(styleInsertIndex)
-    ].join('');
+    const script = '<script src="/bundle.js"></script>';
 
-    return res.send(htmlWithStyle.replace('<div id="root"></div>', `<div id="root">${root}</div>`));
+    html = insertString(html, '</body>', script);
+
+    return res.send(html.replace('<div id="root"></div>', `<div id="root">${root}</div>`));
   });
 };
