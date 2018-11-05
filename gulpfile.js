@@ -92,6 +92,7 @@ exports.test = test;
 const copy = () => gulp.src(staticFiles, { base: '.' }).pipe(gulp.dest('dist'));
 exports.copy = copy;
 
+//TODO: potentially use for watcher: https://tylermcginnis.com/react-js-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/
 const bundle = () =>
   browserify({
     entries: ['dist/src/app/components/index.js'],
@@ -100,7 +101,6 @@ const bundle = () =>
     packageCache: {},
     fullPaths: true
   }).bundle((err, buf) => fs.writeFile('dist/src/app/static/bundle.js', buf));
-// .on('bundle', bundle => console.log('think we just bundled?'));
 
 exports.bundle = bundle;
 
