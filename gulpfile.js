@@ -107,14 +107,7 @@ const bundle = () =>
 exports.bundle = bundle;
 
 const compressBundle = cb => {
-  pump(
-    [
-      gulp.src('dist/src/app/static/bundle.js'),
-      uglify(),
-      gulp.dest('dist/src/app/static/bundle.js.min')
-    ],
-    cb
-  );
+  pump([gulp.src('dist/src/app/static/bundle.js'), uglify(), gulp.dest('dist/src/app/static')], cb);
 };
 
 exports.compressBundle = compressBundle;
