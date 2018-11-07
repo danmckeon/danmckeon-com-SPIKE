@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import { readFile } from 'fs';
+import { join, resolve } from 'path';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { JssProvider, SheetsRegistry } from 'react-jss';
@@ -11,11 +11,11 @@ function insertString(inputStr: string, insertAt: string, insertStr: string): st
 }
 
 export default (req, res, next) => {
-  const staticPath = path.resolve('dist', './src', 'app', 'static');
+  const staticPath = resolve('dist', './src', 'app', 'static');
 
-  const filePath = path.join(staticPath, 'index.html');
+  const filePath = join(staticPath, 'index.html');
 
-  fs.readFile(filePath, 'utf8', (err, html) => {
+  readFile(filePath, 'utf8', (err, html) => {
     if (err) {
       return res.send(err).end();
     }

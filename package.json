@@ -20,6 +20,8 @@
     "express": "^4.16.4",
     "fs-extra": "^7.0.0",
     "gulp": "^4.0.0",
+    "gulp-uglify": "^3.0.1",
+    "pump": "^3.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-jss": "^8.1.0",

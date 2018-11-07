@@ -5,6 +5,8 @@ const gulp = require('gulp');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
 const browserify = require('browserify');
+const uglify = require('gulp-uglify');
+const pump = require('pump');
 
 const tsFiles = ['src/**/*.ts', 'src/**/*.tsx'];
 const staticFiles = [
@@ -103,6 +105,19 @@ const bundle = () =>
   }).bundle((err, buf) => fs.writeFile('dist/src/app/static/bundle.js', buf));
 
 exports.bundle = bundle;
+
+const compressBundle = cb => {
+  pump(
+    [
+      gulp.src('dist/src/app/static/bundle.js'),
+      uglify(),
+      gulp.dest('dist/src/app/static/bundle.js.min')
+    ],
+    cb
+  );
+};
+
+exports.compressBundle = compressBundle;
 
 const build = gulp.series(tsc, copy, bundle);
 exports.build = build;

@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { resolve } from 'path';
 // import serverless from 'serverless-http';
 import renderer from './routes/renderer';
 const express = require('express');
@@ -9,7 +9,7 @@ const app = express();
 // root (/) should always serve our server rendered page
 app.use('^/$', renderer);
 // serve static assets
-app.use(express.static(path.resolve('dist', './src', 'app', 'static')));
+app.use(express.static(resolve('dist', './src', 'app', 'static')));
 
 // handler
 // export const handler = serverless(app);
