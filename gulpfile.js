@@ -95,6 +95,8 @@ const copy = () => gulp.src(staticFiles, { base: '.' }).pipe(gulp.dest('dist'));
 exports.copy = copy;
 
 //TODO: potentially use for watcher: https://tylermcginnis.com/react-js-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/
+// try and build code at link above and check size
+//
 const bundle = () =>
   browserify({
     entries: ['dist/src/app/components/index.js'],
