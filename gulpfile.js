@@ -7,6 +7,8 @@ const spawn = require('child_process').spawn;
 const browserify = require('browserify');
 const uglify = require('gulp-uglify');
 const pump = require('pump');
+const webpack = bluebird.promisify(require('webpack'));
+const path = require('path');
 
 const tsFiles = ['src/**/*.ts', 'src/**/*.tsx'];
 const staticFiles = [
@@ -97,22 +99,36 @@ exports.copy = copy;
 //TODO: potentially use for watcher: https://tylermcginnis.com/react-js-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/
 // try and build code at link above and check size
 //
-const bundle = () =>
-  browserify({
-    entries: ['dist/src/app/components/index.js'],
-    debug: true,
-    cache: {},
-    packageCache: {},
-    fullPaths: true
-  }).bundle((err, buf) => fs.writeFile('dist/src/app/static/bundle.js', buf));
+const bundle = async () => {
+  const entry = path.resolve(__dirname, 'dist/src/app/components/index.js');
+
+  const outputPath = path.resolve(__dirname, 'dist/src/app/static/bundle.js');
+
+  await webpack({
+    entry,
+    output: {
+      filename: path.basename(outputPath),
+      path: path.dirname(outputPath)
+    }
+  });
+
+  console.log('bundled', outputPath);
+};
+// browserify({
+//   entries: ['dist/src/app/components/index.js'],
+//   debug: true,
+//   cache: {},
+//   packageCache: {},
+//   fullPaths: true
+// }).bundle((err, buf) => fs.writeFile('dist/src/app/static/bundle.js', buf));
 
 exports.bundle = bundle;
 
-const compressBundle = cb => {
-  pump([gulp.src('dist/src/app/static/bundle.js'), uglify(), gulp.dest('dist/src/app/static')], cb);
-};
+// const compressBundle = cb => {
+//   pump([gulp.src('dist/src/app/static/bundle.js'), uglify(), gulp.dest('dist/src/app/static')], cb);
+// };
 
-exports.compressBundle = compressBundle;
+// exports.compressBundle = compressBundle;
 
 const build = gulp.series(tsc, copy, bundle);
 exports.build = build;
